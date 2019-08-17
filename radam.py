@@ -1,7 +1,8 @@
 #! -*- coding: utf-8 -*-
 
 from keras.legacy import interfaces
-from keras.optimizer import Optimizer
+from keras.optimizers import Optimizer
+import keras.backend as K
 
 
 class RAdam(Optimizer):
