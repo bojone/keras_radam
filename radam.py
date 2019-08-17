@@ -58,7 +58,7 @@ class RAdam(Optimizer):
         r_t = K.sqrt(
             K.relu(rho_t - 4) * K.relu(rho_t - 2) * rho / ((rho - 4) * (rho - 2) * rho_t)
         )
-        flag = K.cast(rho_t > 4, 'float32')
+        flag = K.cast(rho_t > 4, K.floatx())
 
         ms = [K.zeros(K.int_shape(p), dtype=K.dtype(p)) for p in params]
         vs = [K.zeros(K.int_shape(p), dtype=K.dtype(p)) for p in params]
@@ -69,7 +69,7 @@ class RAdam(Optimizer):
             v_t = (self.beta_2 * v) + (1. - self.beta_2) * K.square(g)
             mhat_t = m_t / (1 - beta_1_t)
             vhat_t = K.sqrt(v_t / (1 - beta_2_t))
-            p_t = p - lr * (flag * r_t * mhat_t / (vhat_t + self.epsilon) + (1 - flag) * mhat_t)
+            p_t = p - lr * mhat_t * (flag * r_t / (vhat_t + self.epsilon) + (1 - flag))
 
             self.updates.append(K.update(m, m_t))
             self.updates.append(K.update(v, v_t))
