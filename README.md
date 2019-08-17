@@ -1,2 +1,1 @@
-# keras_radam
-RAdam optimizer for keras
+# RAdam optimizer for keras
